@@ -2,6 +2,7 @@ const { default: mongoose } = require('mongoose');
 const Post=require('../models/postModels');
 
 
+
 const createPost= async (req,res)=>{
     try{
         const {title,markdownContent,author}=req.body;
@@ -60,7 +61,7 @@ const getPostById=async (req,res)=>{
 
 const updatePost = async (req,res)=>{
     try{
-        const updatePost= await mongoose.findByIdAndUpdate(
+        const updatePost= await Post.findByIdAndUpdate(
             req.params.id,
             req.body,
             {
@@ -70,7 +71,7 @@ const updatePost = async (req,res)=>{
         )
         if (updatePost){
 
-            res.status(200).json(updatedPost)
+            res.status(200).json(updatePost)
         }
         else{
             res.status(404).json({message:"page not found 2"})
@@ -94,9 +95,9 @@ const updatePost = async (req,res)=>{
 
 const deletePost=async (req,res)=>{
     try{
-        const deletedpost=await mongoose.findByIdAndDelete(req.params.id);
+        const deletedpost=await Post.findByIdAndDelete(req.params.id);
         if (deletedpost){
-            res.status(200).json(deletedpost);
+            res.status(200).json({message:"post deleted succesfully"});
         }
         else{
             res.status(404).json({message:"page not found 3"});
