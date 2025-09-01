@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
 import {Link} from 'react-router-dom';
+
+
 
 const PostListItem = ({post}) => {
   const snipet=post.markdownContent.replace(/[#*`]/g,'').substring(0,150)+'...';
-
 
   return (
     <Link to={`/post/${post._id}`} className='post-link' >

@@ -12,4 +12,5 @@ router.route('/:id').get(getPostById).patch(updatePost).delete(deletePost);
 
 
 
+
 module.exports=router;
