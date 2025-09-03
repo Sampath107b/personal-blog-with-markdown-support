@@ -1,18 +1,26 @@
 import React,{useState,useEffect} from 'react';
 import axios from "axios";
 import PostListItem from '../components/PostListItem';
-
+import './HomePage.css';
 
 const HomePage = () => {
   const [posts,setPosts]=useState([]);
   const [loading,setLoading]=useState(true);
   const [error,setError]=useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  // We don't know the total pages yet, so we start with null.
+  const [totalPages, setTotalPages] = useState(null);
   useEffect(()=>{
     const fetchPosts=async ()=>{
+      setLoading(true);
+      setError('');
       try{
-        const response=await axios.get('http://localhost:5000/api/posts');
-        setPosts(response.data);
-        setError(null);
+        const response = await axios.get(`http://localhost:5000/api/posts?page=${currentPage}&limit=10`);
+        const { posts: fetchedPosts, totalPages: fetchedTotalPages } = response.data;
+
+        setPosts(fetchedPosts);
+        setTotalPages(fetchedTotalPages);
+        
       }catch(err){
         setError('Failed to fetch posts. Please try again later');
         console.error('error fetching post:',err);
@@ -25,7 +33,21 @@ const HomePage = () => {
     }
 
     fetchPosts();
-  },[]);
+  },[currentPage]);
+
+  const handleNextPage = () => {
+    // We only move to the next page if we're not already on the last page.
+    if (currentPage < totalPages) {
+      setCurrentPage(prevPage => prevPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    // We only move to the previous page if we're not on the first page.
+    if (currentPage > 1) {
+      setCurrentPage(prevPage => prevPage - 1);
+    }
+  };
 
   if (loading){
     return <div>Loading Posts...</div>;
@@ -47,7 +69,29 @@ const HomePage = () => {
         ))}
       </div>
     )}
-    
+      {totalPages > 0 && (
+        <div className="pagination-controls">
+          <div className="page-info">
+            Page {currentPage} of {totalPages}
+          </div>
+          <div className="pagination-buttons">
+            <button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1} // Disable if on the first page
+              className="btn"
+            >
+              Previous
+            </button>
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages} // Disable if on the last page
+              className="btn"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
     
     
     </div>

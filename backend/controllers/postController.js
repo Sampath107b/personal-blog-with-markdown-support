@@ -26,8 +26,23 @@ const createPost= async (req,res)=>{
 
 const getAllPosts=async (req,res)=>{
     try{
-    const posts=await Post.find({}).sort({createdAt:-1});
-    res.status(200).json(posts);
+
+
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+        const totalPosts = await Post.countDocuments();
+        const posts = await Post.find()
+            .sort({ createdAt: -1 }) 
+            .skip(skip)               
+            .limit(limit);    
+
+        res.status(200).json({
+            posts,
+            currentPage: page,
+            totalPages: Math.ceil(totalPosts / limit), 
+            totalPosts,
+        });
     }
     catch(err){
         console.error(err);
