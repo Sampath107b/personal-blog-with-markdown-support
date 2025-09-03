@@ -5,7 +5,8 @@ import '../markdown-styles.css'
 import ReactMarkdown from 'react-markdown';
 
 const PostPage = () => {
-  const {id}=useParams();
+  const {slug}=useParams();
+  console.log('slug:',slug)
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,7 +18,7 @@ const PostPage = () => {
       setError(null);
       try {
         
-        const response = await axios.get(`http://localhost:5000/api/posts/${id}`);
+        const response = await axios.get(`http://localhost:5000/api/posts/${slug}`);
         
         setPost(response.data);
       } catch (err) {
@@ -36,7 +37,7 @@ const PostPage = () => {
     };
 
     fetchPost(); 
-  }, [id]);
+  }, [slug]);
 
   if (loading) {
     return <div>Loading post...</div>;

@@ -5,6 +5,10 @@ import AdminDash from './pages/AdminDash';
 import LoginPage from './pages/LoginPage';
 import PostPage from './pages/PostPage';
 import Navbar from './components/Navbar';
+import ProtectedRoute from './components/ProtectedRoute';
+import CreatePost from './pages/CreatePost';
+import EditPost from './pages/EditPost';
+
 
 const App = () => {
   return (
@@ -15,9 +19,26 @@ const App = () => {
       <main className=''>     
       <Routes>
         <Route path='/' element={<HomePage/>}  />
-        <Route path='/post/:id' element={<PostPage/>} />
+        <Route path='/posts/:slug' element={<PostPage/>} />
         <Route path='/admin/login' element={<LoginPage/>} />
-        <Route path='/admin/dashboard' element={<AdminDash/>}/>
+        <Route path='/admin/dashboard'
+         element={
+          <ProtectedRoute><AdminDash/></ProtectedRoute>
+         }/>
+            <Route
+              path="/admin/create-post"
+              element={
+                <ProtectedRoute>
+                  <CreatePost />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/admin/edit-post/:id"
+              element={
+                <ProtectedRoute>
+                  <EditPost />
+                </ProtectedRoute>
+              }  />
       </Routes>
       </main> 
 

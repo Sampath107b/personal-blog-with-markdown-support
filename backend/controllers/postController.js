@@ -36,9 +36,9 @@ const getAllPosts=async (req,res)=>{
 
 }
 
-const getPostById=async (req,res)=>{
+const getPostBySlug=async (req,res)=>{
     try{
-        const post=await Post.findById(req.params.id);
+        const post=await Post.findOne({slug:req.params.slug});
         if (post){
             res.status(200).json(post);
         }
@@ -118,4 +118,4 @@ const deletePost=async (req,res)=>{
 
 
 
-module.exports={createPost,getAllPosts,getPostById,updatePost,deletePost,}
+module.exports={createPost,getAllPosts,getPostBySlug,updatePost,deletePost,}

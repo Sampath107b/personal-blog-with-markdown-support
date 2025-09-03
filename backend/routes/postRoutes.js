@@ -1,15 +1,16 @@
 const express=require("express")
 
-const {createPost,getAllPosts,getPostById,updatePost,deletePost}= require("../controllers/postController");
-
+const {createPost,getAllPosts,getPostBySlug,updatePost,deletePost}= require("../controllers/postController");
+const {protect} = require('../middleware/authMiddleware');
 
 const router=express.Router();
 
 
-router.route('/').post(createPost).get(getAllPosts);
-
-router.route('/:id').get(getPostById).patch(updatePost).delete(deletePost);
-
+router.get('/',getAllPosts);
+router.get('/:slug',getPostBySlug);
+router.post('/',protect,createPost);
+router.patch('/:id',protect, updatePost);
+router.delete('/:id',protect, deletePost);
 
 
 
