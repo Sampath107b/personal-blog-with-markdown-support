@@ -11,7 +11,12 @@
   font-weight: bold;
 }
 
-.navbar-links{
+.navbar a.navbar-brand{
+  font-size: 2rem;
+  
+}
+
+/* .navbar-links{
   list-style: none;
   margin: 0;
   padding: 0;
@@ -23,13 +28,43 @@
   margin-left: 1.5rem;
 }
 
-.navbar a{
+.navbar a,
+.navbar button{
   color: white;
   text-decoration: none;
   transition: color 0.3s ease-in-out;
 }
 
 .navbar a:hover{
+  color:#61dafb;
+} */
+
+.navbar-links{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  font-size: 1rem;
+}
+
+.navbar-links li{
+  margin-left: 1.5rem;
+}
+
+.navbar a,
+.navbar button.logout-btn {   /* apply same style to button */
+  color: white;
+  background: none;          /* remove button background */
+  border: none;              /* remove default border */
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight:bold;
+  transition: color 0.3s ease-in-out;
+}
+
+.navbar a:hover,
+.navbar button.logout-btn:hover {
   color:#61dafb;
 }
 

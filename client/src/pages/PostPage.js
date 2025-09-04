@@ -3,10 +3,16 @@ import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import '../markdown-styles.css'
 import ReactMarkdown from 'react-markdown';
+import CategoryTag from '../components/CategoryTag';
+
+const categoriesContainerStyle = {
+  marginTop: '10px',
+};
+
 
 const PostPage = () => {
   const {slug}=useParams();
-  console.log('slug:',slug)
+  
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -38,6 +44,17 @@ const PostPage = () => {
 
     fetchPost(); 
   }, [slug]);
+  const createMetaDescription = (markdown) => {
+    if (!markdown) return '';
+    // Remove Markdown formatting and trim to a suitable length (e.g., 155 chars).
+    const plainText = markdown
+      .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images
+      .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Keep link text
+      .replace(/[`*#_~]/g, '') // Remove markdown characters
+      .replace(/\s+/g, ' '); // Normalize whitespace
+
+    return plainText.substring(0, 155).trim() + '...';
+  };
 
   if (loading) {
     return <div>Loading post...</div>;
@@ -57,11 +74,19 @@ const PostPage = () => {
 
   return (
     <article className="post-full">
+      
       <h1>{post.title}</h1>
       <div className="post-full-meta">
         <span>by {post.author}</span>
         <span>Published on {new Date(post.createdAt).toLocaleDateString()}</span>
       </div>
+      {post.categories && post.categories.length > 0 && (
+        <div style={categoriesContainerStyle}>
+          {post.categories.map(category => (
+            <CategoryTag key={category} category={category} />
+          ))}
+        </div>
+      )}
       <div className="post-full-content">
         
         <ReactMarkdown >

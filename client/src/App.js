@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import CreatePost from './pages/CreatePost';
 import EditPost from './pages/EditPost';
+import CategoryPage from './pages/CategoryPage';
 
 
 const App = () => {
@@ -20,6 +21,8 @@ const App = () => {
       <Routes>
         <Route path='/' element={<HomePage/>}  />
         <Route path='/posts/:slug' element={<PostPage/>} />
+            <Route path="/category/:categoryName" element={<CategoryPage />} />
+
         <Route path='/admin/login' element={<LoginPage/>} />
         <Route path='/admin/dashboard'
          element={
@@ -33,7 +36,7 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path="/admin/edit-post/:id"
+            <Route path="/admin/edit-post/id/:id"
               element={
                 <ProtectedRoute>
                   <EditPost />

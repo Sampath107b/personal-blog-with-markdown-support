@@ -14,6 +14,7 @@ const EditPost = () => {
   // 4. Set up state for form fields, loading, and errors.
   const [title, setTitle] = useState('');
   const [markdownContent, setMarkdownContent] = useState('');
+  const [categories, setCategories] = useState('');
   const [error, setError] = useState('');
   // We add an extra loading state for the initial data fetch.
   const [loading, setLoading] = useState(true);
@@ -26,10 +27,13 @@ const EditPost = () => {
     const fetchPost = async () => {
       setLoading(true);
       try {
-        const response = await apiService.get(`/posts/${id}`);
+        const response = await apiService.get(`/posts/id/${id}`);
         // 6. Once data is fetched, populate the form's state.
         setTitle(response.data.title);
         setMarkdownContent(response.data.markdownContent);
+        if (response.data.categories && Array.isArray(response.data.categories)) {
+          setCategories(response.data.categories.join(', '));
+        }
       } catch (err) {
         console.error('Failed to fetch post for editing:', err);
         setError('Failed to load post data. Please try again.');
@@ -52,13 +56,15 @@ const EditPost = () => {
       setSubmitting(false);
       return;
     }
+    const categoriesArray = categories.split(',').map(cat => cat.trim()).filter(cat => cat);
 
     try {
       // 8. Send a PUT request to the backend with the updated data.
       // The endpoint is the same as the GET endpoint, but the method is PUT.
-      await apiService.put(`/posts/${id}`, {
+      await apiService.patch(`/posts/${id}`, {
         title,
         markdownContent,
+        categories: categoriesArray
       });
 
       // 9. On success, navigate back to the dashboard.
@@ -98,6 +104,18 @@ const EditPost = () => {
             className="form-control markdown-input"
             value={markdownContent}
             onChange={(e) => setMarkdownContent(e.target.value)}
+            disabled={submitting}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="categories">Categories (comma-separated)</label>
+          <input
+            type="text"
+            id="categories"
+            className="form-control"
+            value={categories}
+            onChange={(e) => setCategories(e.target.value)}
+            placeholder="e.g., React, Web Development, Tutorial"
             disabled={submitting}
           />
         </div>

@@ -58,7 +58,10 @@ const HomePage = () => {
   }
 
   return (
-    <div><h1>Blog Posts</h1>
+    <div>
+      
+      
+      <h1>Latest Posts</h1>
     {posts.length===0 ? (
       <p>No Posts yet. Be the first to create one!</p>
     ):(

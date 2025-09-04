@@ -7,6 +7,7 @@ import './CreatePost.css';
 
 const CreatePost = () => {
   const [title, setTitle] = useState('');
+  const [categories, setCategories] = useState('');
   const [markdownContent, setMarkdownContent] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -22,6 +23,7 @@ const CreatePost = () => {
       setLoading(false);
       return;
     }
+    const categoriesArray = categories.split(',').map(cat => cat.trim()).filter(cat => cat);
 
     try {
       
@@ -64,6 +66,18 @@ const CreatePost = () => {
             value={markdownContent}
             onChange={(e) => setMarkdownContent(e.target.value)}
             placeholder="Write your post content here using Markdown..."
+            disabled={loading}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="categories">Categories (comma-separated)</label>
+          <input
+            type="text"
+            id="categories"
+            className="form-control"
+            value={categories}
+            onChange={(e) => setCategories(e.target.value)}
+            placeholder="e.g., React, Web Development, Tutorial"
             disabled={loading}
           />
         </div>

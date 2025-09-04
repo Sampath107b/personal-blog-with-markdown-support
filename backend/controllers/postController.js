@@ -1,17 +1,18 @@
-const { default: mongoose } = require('mongoose');
+const { default: mongoose, get } = require('mongoose');
 const Post=require('../models/postModels');
 
 
 
 const createPost= async (req,res)=>{
     try{
-        const {title,markdownContent,author}=req.body;
-        if (!title || !markdownContent){
+        const {title,markdownContent,categories,author}=req.body;
+        if (!title || !markdownContent ){
             return res.status(400).json({message:"please provide title and content"})
         }
         const newPost=await Post.create({
             title,
             markdownContent,
+            categories,
             author,
 
         });
@@ -74,6 +75,29 @@ const getPostBySlug=async (req,res)=>{
     }
 }
 
+const getPostById = async (req, res) => {
+    try {
+        const post = await Post.findOne({ _id: req.params.id });
+        if (post) {
+            res.status(200).json(post);
+        }
+        else {
+            res.status(404).json({ message: "Post not found" });
+        }
+
+
+
+    }
+    catch (err) {
+        console.log(err)
+        if (err.name = CastError) {
+            return res.status(400).json({ message: "invalid post id" })
+
+        }
+        res.status(500).json({ message: "error fetching post", error: err.message })
+    }
+}
+
 const updatePost = async (req,res)=>{
     try{
         const updatePost= await Post.findByIdAndUpdate(
@@ -129,8 +153,18 @@ const deletePost=async (req,res)=>{
 
 }
 
+const getPostByCategory=async (req,res)=>{
+    try{
+        const categoryName=req.params.categoryName;
+        const posts=await Post.find({categories:categoryName}).sort({createdAt:-1});
+        res.status(200).json(posts);
+    }
+    catch(err){
+        res.status(500).json({message:'error fetching posts by category',error:err.messsge});
+    }
+}
 
 
 
 
-module.exports={createPost,getAllPosts,getPostBySlug,updatePost,deletePost,}
+module.exports={createPost,getAllPosts,getPostBySlug,updatePost,deletePost,getPostById,getPostByCategory};
