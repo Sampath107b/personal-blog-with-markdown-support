@@ -24,7 +24,7 @@ const PostPage = () => {
       setError(null);
       try {
         
-        const response = await axios.get(`http://localhost:5000/api/posts/${slug}`);
+        const response = await axios.get(`https://personal-blog-with-markdown-support.onrender.com/api/posts/${slug}`);
         
         setPost(response.data);
       } catch (err) {

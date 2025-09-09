@@ -15,7 +15,7 @@ const HomePage = () => {
       setLoading(true);
       setError('');
       try{
-        const response = await axios.get(`http://localhost:5000/api/posts?page=${currentPage}&limit=10`);
+        const response = await axios.get(`https://personal-blog-with-markdown-support.onrender.com/api/posts?page=${currentPage}&limit=10`);
         const { posts: fetchedPosts, totalPages: fetchedTotalPages } = response.data;
 
         setPosts(fetchedPosts);
