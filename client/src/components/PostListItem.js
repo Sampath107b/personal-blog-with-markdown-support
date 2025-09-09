@@ -12,11 +12,11 @@ const PostListItem = ({post}) => {
   return (
     <article className='post-list-item'> 
     <Link to={`/posts/${post.slug}`} className='post-link' >
-      <h2>{post.title}</h2>
+        <h2 style={{ color:'#4069e4ff'}}>{post.title}</h2>
       </Link>
       <div className='post-meta'>
-        <span>{post.author}</span>
-        <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+        <span><b>{post.author}</b></span>
+        <span><b>{new Date(post.createdAt).toLocaleDateString()}</b></span>
       </div>
       <p>{snipet}</p>
         {post.categories && post.categories.length > 0 && (

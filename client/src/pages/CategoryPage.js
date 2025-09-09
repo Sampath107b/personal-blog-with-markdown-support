@@ -47,18 +47,14 @@ const CategoryPage = () => {
   }
 
   return (
-    // We reuse the 'home-page' class for consistent layout.
+    
     <div className="home-page">
-      {/* 8. Display a clear, dynamic heading to provide context to the user. */}
       <h1>Posts in: "{categoryName}"</h1>
 
       <div className="post-list">
-        {/* 9. If posts are found, map over them and render a PostListItem for each one.
-             This is the power of component reuse! */}
         {posts.length > 0 ? (
           posts.map(post => <PostListItem key={post._id} post={post} />)
         ) : (
-          // 10. If the array is empty, show a helpful message.
           <p>No posts found in this category.</p>
         )}
       </div>

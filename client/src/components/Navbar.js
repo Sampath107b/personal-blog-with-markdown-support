@@ -5,7 +5,7 @@ const Navbar = () => {
   const navigate=useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/"); 
+    navigate("/");
   };
   const token=localStorage.getItem("token");
   return (

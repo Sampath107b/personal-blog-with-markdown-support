@@ -46,12 +46,12 @@ const PostPage = () => {
   }, [slug]);
   const createMetaDescription = (markdown) => {
     if (!markdown) return '';
-    // Remove Markdown formatting and trim to a suitable length (e.g., 155 chars).
+    
     const plainText = markdown
-      .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images
-      .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Keep link text
-      .replace(/[`*#_~]/g, '') // Remove markdown characters
-      .replace(/\s+/g, ' '); // Normalize whitespace
+      .replace(/!\[.*?\]\(.*?\)/g, '') 
+      .replace(/\[(.*?)\]\(.*?\)/g, '$1') 
+      .replace(/[`*#_~]/g, '') 
+      .replace(/\s+/g, ' ');
 
     return plainText.substring(0, 155).trim() + '...';
   };

@@ -8,7 +8,7 @@ const HomePage = () => {
   const [loading,setLoading]=useState(true);
   const [error,setError]=useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  // We don't know the total pages yet, so we start with null.
+  
   const [totalPages, setTotalPages] = useState(null);
   useEffect(()=>{
     const fetchPosts=async ()=>{
@@ -36,14 +36,14 @@ const HomePage = () => {
   },[currentPage]);
 
   const handleNextPage = () => {
-    // We only move to the next page if we're not already on the last page.
+    
     if (currentPage < totalPages) {
       setCurrentPage(prevPage => prevPage + 1);
     }
   };
 
   const handlePreviousPage = () => {
-    // We only move to the previous page if we're not on the first page.
+    
     if (currentPage > 1) {
       setCurrentPage(prevPage => prevPage - 1);
     }
@@ -80,14 +80,14 @@ const HomePage = () => {
           <div className="pagination-buttons">
             <button
               onClick={handlePreviousPage}
-              disabled={currentPage === 1} // Disable if on the first page
+              disabled={currentPage === 1} 
               className="btn"
             >
               Previous
             </button>
             <button
               onClick={handleNextPage}
-              disabled={currentPage === totalPages} // Disable if on the last page
+              disabled={currentPage === totalPages} 
               className="btn"
             >
               Next

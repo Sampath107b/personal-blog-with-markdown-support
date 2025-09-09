@@ -26,12 +26,15 @@ const LoginPage = () => {
       navigate('/admin/dashboard');
     }
     catch(err){
-      console.error('login failed',err);
+      
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {
         setError('Login failed. Please try again.');
+
       }
+      setUsername('');
+      setPassword('');
     } finally {
       setLoading(false);
     }
@@ -71,6 +74,7 @@ const LoginPage = () => {
           Log In
         </button>
       </form>
+      {error && <div className="error-message">{error}</div>}
     </div>
   );
 };

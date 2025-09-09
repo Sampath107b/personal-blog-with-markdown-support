@@ -1,34 +1,33 @@
 // client/src/pages/EditPost.js
 
 import React, { useState, useEffect } from 'react';
-// 1. Import the necessary hooks from react-router-dom
+
 import { useNavigate, useParams } from 'react-router-dom';
 import apiService from '../services/apiService';
-// 2. We reuse the same CSS as the CreatePost page.
+
 import './CreatePost.css';
 
 const EditPost = () => {
-  // 3. Get the post ID from the URL parameters using the useParams hook.
+  
   const { id } = useParams();
 
-  // 4. Set up state for form fields, loading, and errors.
+
   const [title, setTitle] = useState('');
   const [markdownContent, setMarkdownContent] = useState('');
   const [categories, setCategories] = useState('');
   const [error, setError] = useState('');
-  // We add an extra loading state for the initial data fetch.
+  
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  // 5. Use useEffect to fetch the post data when the component mounts.
-  // The dependency array [id] ensures this effect runs whenever the post ID from the URL changes.
+  
   useEffect(() => {
     const fetchPost = async () => {
       setLoading(true);
       try {
         const response = await apiService.get(`/posts/id/${id}`);
-        // 6. Once data is fetched, populate the form's state.
+        
         setTitle(response.data.title);
         setMarkdownContent(response.data.markdownContent);
         if (response.data.categories && Array.isArray(response.data.categories)) {
@@ -45,7 +44,7 @@ const EditPost = () => {
     fetchPost();
   }, [id]);
 
-  // 7. Handler for the form submission.
+ 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmitting(true);
@@ -59,15 +58,14 @@ const EditPost = () => {
     const categoriesArray = categories.split(',').map(cat => cat.trim()).filter(cat => cat);
 
     try {
-      // 8. Send a PUT request to the backend with the updated data.
-      // The endpoint is the same as the GET endpoint, but the method is PUT.
+      
       await apiService.patch(`/posts/${id}`, {
         title,
         markdownContent,
         categories: categoriesArray
       });
 
-      // 9. On success, navigate back to the dashboard.
+      
       navigate('/admin/dashboard');
 
     } catch (err) {
@@ -77,7 +75,7 @@ const EditPost = () => {
     }
   };
 
-  // 10. Show a loading message while fetching initial data.
+  
   if (loading) {
     return <div style={{ textAlign: 'center', marginTop: '2rem' }}>Loading post...</div>;
   }
