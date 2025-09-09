@@ -8,7 +8,7 @@ const authRoutes = require('./routes/authRoutes');
 
 const app=express();
 app.use(cors({
-    origin:"http://localhost:3000"
+    origin: ["http://localhost:3000","https://personal-blog-with-markdown-support.vercel.app/"]
 }))
 app.use(express.json());
 
