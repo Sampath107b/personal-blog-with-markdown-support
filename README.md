@@ -56,7 +56,7 @@ Others
 
 🚀 Getting Started
 1️⃣ Clone the repo
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/Sampath107b/personal-blog-with-markdown-support
 cd your-repo-name
 
 2️⃣ Install dependencies
